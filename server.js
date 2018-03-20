@@ -12,10 +12,7 @@ var  articles = {
   date: 'March 18,2018',
   content:`
 <p>This is the content for first article.This is the content for first article.This is the content for first article.This is the content for first article.</p>
-
 <p>This is the 2nd content for first article.This is the 2nd content for first article.This is the 2nd content for first article.This is the 2nd content for first article.</p>
-
-<p>This is the 3rd content for first article.This is the 3rd content for first article.This is the 3rd content for first article.This is the 3rd content for first article.</p>
 `
 },
  articleTwo :{
@@ -32,7 +29,7 @@ var  articles = {
   content:`
    <p>This is the content for third article.`
  }
-}
+};
 
 function createTemplate(data){
 var title=data.title;
