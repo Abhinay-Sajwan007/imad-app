@@ -32,8 +32,9 @@ img.onclick = function(){
 */
 
 
-var counter = 0;
+
 var btn = document.getElementById('counter');
+var counter = 0;
 btn.onclick = function(){
     //make a request to another endpoint 
     
