@@ -58,7 +58,7 @@ btn.onclick = function(){
     
    //Make the request
    request.open('GET','http://abhinaysajwan.imad.hasura-app.io/counter',true);
-   request.send(null)
+   request.send(null);
 };
 
 
@@ -69,18 +69,19 @@ btn.onclick = function(){
 
 //submit Name
 var nameInput = document.getElementById('name');
-var naming = nameInput.value;
+var name = nameInput.value;
 var submit = document.getElementById('submit_btn');
+
 submit.onclickc = function(){
     //make request to the server and the name 
     //capture a list of names and render it as a list
     var names = ['Name1','Name2','Name3','Name4'];
     var list = '';
     for(var i=0;i<names.length;i++){
-        list += '<li>'+ names[i] + '</li>'
+        list += '<li>'+ names[i] + '</li>';
     }
     var ul = document.getElementById('namelist');
     ul.innerHTML=list;
-}
+};
 
 
