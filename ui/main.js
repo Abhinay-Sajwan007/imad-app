@@ -33,6 +33,8 @@ img.onclick = function(){
 
 
 
+
+//counter code
 var btn = document.getElementById('counter');
 
 btn.onclick = function(){
@@ -63,6 +65,17 @@ btn.onclick = function(){
 
  /*Render it in a correct span
     counter = counter +1;*/
-/* var span = document.getElementById('count');
-    span.innerHTML = counter.toString();*/
+
+
+//submit Name
+var nameInput = document.getElementById('name');
+var  name = nameInput.value;
+var submit = document.getElementById('submit_btn');
+submit.onclickc = function(){
+    //make request to the server and the name 
+    //capture a list of names and render it as a list
+    var names = ['Name1','Name2','Name3'];
+    var list = ''
+}
+}
 
