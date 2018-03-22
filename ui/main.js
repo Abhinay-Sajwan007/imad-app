@@ -34,18 +34,35 @@ img.onclick = function(){
 
 
 var btn = document.getElementById('counter');
-var counter = 0;
+
 btn.onclick = function(){
-    //make a request to another endpoint 
     
+    //create a request object
+    var request = new XMLHttpRequest();
     
     //captures a response and store it in a variable
-    
-    
-    //Render it in a correct span
-    counter = counter +1;
-    var span = document.getElementById('count');
+    request.onreadystatechange = function(){
+        if(request.readyState === XMLHttpRequest.DONE){
+            //take some action
+            if(request.status === 200){
+                var counter = request.responseText;
+                var span = document.getElementById('count');
     span.innerHTML = counter.toString();
+                
+            }
+        }
+        //not done yet
+    };
     
+   //Make the request
+   request.open('GET','http://abhinaysajwan.imad.hasura-app.io/counter',true);
+   request.send(null)
 };
+
+
+
+ /*Render it in a correct span
+    counter = counter +1;*/
+/* var span = document.getElementById('count');
+    span.innerHTML = counter.toString();*/
 
