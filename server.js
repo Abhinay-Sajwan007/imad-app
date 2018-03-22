@@ -109,7 +109,7 @@ app.get('/submit-name/:name',function(req,res){
 
 // using query parameter (in urls)
 var names = [];
-app.get('/submit-name/:name',function(req,res){ //URL : /submit-name?name=xxxx
+app.get('/submit-name',function(req,res){ //URL : /submit-name?name=xxxx
     //Get the name from the request
    var name = req.query.name;  //TODO
    names.push(name);
