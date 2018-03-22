@@ -55,7 +55,7 @@ btn.onclick = function(){
         }
         //not done yet
         else{
-            document.print('404 not found');
+            console.log('404 not found');
         }
     };
     
