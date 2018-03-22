@@ -55,7 +55,7 @@ btn.onclick = function(){
         }
         //not done yet
         else{
-            alert('404 not found');
+            document.print('404 not found');
         }
     };
     
@@ -66,8 +66,7 @@ btn.onclick = function(){
 
 
 
- /*Render it in a correct span
-    counter = counter +1;*/
+
 
 
 //submit Name
