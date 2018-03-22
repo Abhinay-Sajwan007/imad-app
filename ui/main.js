@@ -68,9 +68,7 @@ btn.onclick = function(){
 
 
 //submit Name
-
 var submit = document.getElementById('submit_btn');
-
 submit.onclick = function(){
   
     //make request to the server and the name 
@@ -103,9 +101,6 @@ submit.onclick = function(){
    var name = nameInput.value;
    request.open('GET','http://abhinaysajwan.imad.hasura-app.io/submit-name?name='+name,true);
    request.send(null);
-   
-   
-   
     
 };
 
