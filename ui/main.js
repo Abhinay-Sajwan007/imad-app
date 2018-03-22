@@ -29,3 +29,18 @@ img.onclick = function(){
     var interval = setInterval(moveRight,50)
 }
 
+
+var btn = document.getElementById('counter');
+
+btn.onclick = function(){
+    //make a request to another endpoint 
+    
+    
+    //captures a response and store it in a variable
+    
+    
+    //Reb=nder it in a correct span
+    
+    
+};
+
