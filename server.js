@@ -39,7 +39,7 @@ var  articles = {
    <p>This is the content for third article.`
  }
 };
-*/
+
 function createTemplate(data){
 var title=data.title;
 var date=data.date;
@@ -156,7 +156,7 @@ app.get('/articles/:articleName', function (req, res) {
        else{
            if(result.rows.length === 0)
              {
-                 res.send(404).send('Article Not Found');
+                 res.send(404).send('Article Not Found')
              } 
            else
            {
