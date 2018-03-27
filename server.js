@@ -14,7 +14,7 @@ var config = {
 var app = express();
 app.use(morgan('combined'));
 
-/*var  articles = {
+var  articles = {
  'article-one' : {
   title: 'Article One | Abhinay Sajwan',
   heading : "Hi!You're on the Article-One.",
@@ -78,7 +78,7 @@ var htmlTemplate = `
 
 return htmlTemplate; 
 }
-*/
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
@@ -141,15 +141,34 @@ app.get('/submit-name',function(req,res){ //URL : /submit-name?name=xxxx
    res.send(JSON.stringify(names));
    
 });
-/*
-app.get('/:articleName', function (req, res) {
+
+app.get('/articles/:articleName', function (req, res) {
 //articleName == article-one
 //articles[articleNAme]=={}content object for article one
-    var articleName = req.params.articleName;
-    res.send(createTemplate(articles[articleName]));
+
+
+
+  
+    pool.query("SELECT * FROM article WHERE title = "+  req.params.articleName,function(err,result){
+       if(err){
+           res.status(500).send(err.toString());
+       } 
+       else{
+           if(result.rows.length === 0)
+             {
+                 res.send(404).send('Article Not Found')
+             } 
+           else
+           {
+              var articleData = result.rows[0];
+              res.send(createTemplate(articleData));
+           }
+       }
+    });
+    
 });
 
-*/
+
 // Do not change port, otherwise your app won't run on IMAD servers
 // Use 8080 only for local development if you already have apache running on 80
 
