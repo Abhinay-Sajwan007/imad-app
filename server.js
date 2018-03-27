@@ -13,7 +13,7 @@ var config = {
  
 var app = express();
 app.use(morgan('combined'));
-
+/*
 var  articles = {
  'article-one' : {
   title: 'Article One | Abhinay Sajwan',
@@ -39,7 +39,7 @@ var  articles = {
    <p>This is the content for third article.`
  }
 };
-
+*/
 function createTemplate(data){
 var title=data.title;
 var date=data.date;
