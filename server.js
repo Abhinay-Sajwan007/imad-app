@@ -6,7 +6,7 @@ var path = require('path');
 var config = {
     user:'abhinaysajwan',
     database : 'abhinaysajwan',
-    host : ' db.imad.hasura-app.io',
+    host : ' http://db.imad.hasura-app.io',
     port : '5432',
     password : 'db-abhinaysajwan-32314'
 };
