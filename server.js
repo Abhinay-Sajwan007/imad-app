@@ -8,7 +8,7 @@ var config = {
     database : 'abhinaysajwan',
     host : ' db.imad.hasura-app.io',
     port : '5432',
-    password : 'abhinaysajwan'
+    password : 'db-abhinaysajwan-32314'
 };
 
  
