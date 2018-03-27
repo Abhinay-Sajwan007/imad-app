@@ -118,8 +118,6 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });
 
-
-
 /*
 //sending data using jason array as string
 var names = [];
@@ -131,9 +129,11 @@ app.get('/submit-name/:name',function(req,res){
    res.send(JSON.stringify(names));
    
 });
+
 */
 
 // using query parameter (in urls)
+
 var names = [];
 app.get('/submit-name',function(req,res){ //URL : /submit-name?name=xxxx
     //Get the name from the request
@@ -144,11 +144,11 @@ app.get('/submit-name',function(req,res){ //URL : /submit-name?name=xxxx
    
 });
 
+
+
 app.get('/articles/:articleName', function (req, res) {
 //articleName == article-one
 //articles[articleNAme]=={}content object for article one
-
-
 
   
     pool.query("SELECT * FROM article WHERE title = '"+  req.params.articleName+"'",function(err,result){
@@ -158,7 +158,7 @@ app.get('/articles/:articleName', function (req, res) {
        else{
            if(result.rows.length === 0)
              {
-                 res.send(404).send('Article Not Found')
+                 res.send(404).send("Article Not Found");
              } 
            else
            {
