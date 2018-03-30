@@ -108,20 +108,21 @@ app.get('/hash/:input',function(req,res){
 app.post('/create-user/:username/',function(req,res){
     // username,password
     //{username: "abhinay" , password: "password"}
+    
     //JSON request
     var username = req.body.username;
     var password = req.body.password;
 
     var salt = crypto.randomBytes(128).toString('hex'); 
     var dbString = hash(password,salt);
-    pool.query('INSETRT INTO "user" (username,password) VALUES ($1,$2)',[username,dbString],function(){
+    pool.query('INSETRT INTO "user" (username,password) VALUES ($1,$2)',[username,dbString],function(err,result){
           if(err){
            res.status(500).send(err.toString());
        } else{
            res.send('User Successfully Created: '+ username );
        }
-    })
-})
+    });
+});
 
 var pool = new Pool(config);
 
