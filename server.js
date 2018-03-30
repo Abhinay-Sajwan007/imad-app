@@ -93,6 +93,8 @@ function hash(input,salt){
     var hashed = crypto.pbkdf2Sync(input,salt,10000,512,'sha512');
    // return hashed.toString('hex');
     return ["pbkdf2","10000",salt,hashed.toString('hex')].join('$');
+    
+    
     //algorithm : md5
     //"password" -> a8sfkjhdfklmxcvjdi394jvjhflkr302838
     //"password-this-is-some-random-string" ->qweregrhredjglkvdgpo34cjafd232vjdd
@@ -112,6 +114,7 @@ app.post('/create-user/:username/',function(req,res){
     //JSON request
     var username = req.body.username;
     var password = req.body.password;
+    
     var salt = crypto.randomBytes(128).toString('hex'); 
     var dbString = hash(password,salt);
     pool.query('INSETRT INTO "user" (username,password) VALUES ($1,$2)',[username,dbString],function(err,result){
