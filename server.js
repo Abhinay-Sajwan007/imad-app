@@ -85,6 +85,16 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
+function hash(input){
+    //how do we create a hash?
+    var hashed=
+}
+
+app.get('/hash/:input',function(rs,req){
+    var hashedString = hash(req.params.input);
+    res.send(hashedString);
+});
+
 var pool = new Pool(config);
 
 app.get('/test-db',function(req,res){
