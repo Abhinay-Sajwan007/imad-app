@@ -144,8 +144,8 @@ submit.onclick = function(){
   
      var obj = {"uname" : "username" , "password" : "pass"};
      
-  console.log(username);
-  console.log(password);
+  console.log(uname);
+  console.log(pass);
   
    request.open('POST','http://abhinaysajwan.imad.hasura-app.io/login',true);
    request.setRequestHeader('Content-Type','application/json');
