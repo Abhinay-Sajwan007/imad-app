@@ -140,7 +140,7 @@ submit.onclick = function(){
     
    //Make the request
    var username = document.getElementById('username').value;
-   var passworrd = document.getElementById('password').value;
+   var password = document.getElementById('password').value;
   
      var obj = {"username" : "username" , "password" : "password"};
      
