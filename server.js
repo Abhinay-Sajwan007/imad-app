@@ -45,6 +45,7 @@ var  articles = {
  }
 };
 */
+/*
 function createTemplate(data){
 var title=data.title;
 var date=data.date;
@@ -82,7 +83,7 @@ var htmlTemplate = `
 </html>`;
 
 return htmlTemplate; 
-}
+}*/
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
@@ -164,7 +165,7 @@ app.post('/login',function(req,res){
     });    
 });
 
-
+/*
 var pool = new Pool(config);
 
 app.get('/test-db',function(req,res){
@@ -186,6 +187,7 @@ app.get('/counter', function (req, res) {
   res.send(counter.toString());
 });
 */
+
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
