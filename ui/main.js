@@ -148,6 +148,6 @@ submit.onclick = function(){
   console.log(passwordInput);
    request.open('POST','http://abhinaysajwan.imad.hasura-app.io/login',true);
    request.setRequestHeader('Content-Type','application/json');
-   request.send(JSON.stringify({username : username,password: password}));
+   request.send(JSON.stringify({username : 'username' ,password: 'password' }));
     
 };
