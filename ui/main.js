@@ -139,16 +139,16 @@ submit.onclick = function(){
     };
     
    //Make the request
-   var username = document.getElementById('username').value;
-   var password = document.getElementById('password').value;
+   var uname = document.getElementById('username').value;
+   var pass = document.getElementById('password').value;
   
-     
+     var obj = {"uname" : "username" , "password" : "pass"};
      
   console.log(username);
   console.log(password);
   
    request.open('POST','http://abhinaysajwan.imad.hasura-app.io/login',true);
    request.setRequestHeader('Content-Type','application/json');
-   request.send(JSON.stringify({"username" : "username" , "password" : "password"}));
+   request.send(JSON.stringify(obj));
     
 };
