@@ -89,6 +89,7 @@ return htmlTemplate;
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
+
 var pool = new Pool(config);
 
 function hash(input,salt){
