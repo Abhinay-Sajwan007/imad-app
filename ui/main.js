@@ -1,154 +1,275 @@
-/*console.log('Loaded!');
+var express = require('express');
+var morgan = require('morgan');
+var Pool = require('pg').Pool;
+var path = require('path');
+var crypto = require('crypto');
+var bodyParser = require('body-parser');
 
-//change the text of the main-text div
-var element = document.getElementById('main-text');
-
-element.innerHTML = 'New Value'
-
-
-var img = document.getElementById('madi');
-//move the image
-
-img.onclick = function(){
-    img.style.marginLeft='100px'
-}
-
-
-
-// animation
-
-var marginleft = 0;
-
-function moveRight(){
-    
-    marginleft = marginleft + 1;
-    img.style.marginLeft = marginleft+'px';
-    
-}
-
-img.onclick = function(){
-    var interval = setInterval(moveRight,50)
-}
-*/
-
+var config = {
+    user:'abhinaysajwan',
+    database :'abhinaysajwan',
+    host : 'db.imad.hasura-app.io',
+    port : '5432',
+    password : process.env.DB_PASSWORD,
+};
+ 
+var app = express();
+app.use(morgan('combined'));
+app.use(bodyParser.json());
 
 
 /*
-//counter code
-var btn = document.getElementById('counter');
-
-btn.onclick = function(){
-    
-    //create a request object
-    var request = new XMLHttpRequest();
-    
-    //captures a response and store it in a variable
-    request.onreadystatechange = function(){
-        if(request.readyState === XMLHttpRequest.DONE){
-            //take some action
-            if(request.status === 200){
-                var counter = request.responseText;
-                var span = document.getElementById('count');
-    span.innerHTML = counter.toString();
-                
-            }
-        }
-        //not done yet
-   
-    };
-    
-   //Make the request
-   request.open('GET','http://abhinaysajwan.imad.hasura-app.io/counter',true);
-   request.send(null);
+var  articles = {
+ 'article-one' : {
+  title: 'Article One | Abhinay Sajwan',
+  heading : "Hi!You're on the Article-One.",
+  date: 'March 18,2018',
+  content:`
+<p>This is the content for first article.This is the content for first article.This is the content for first article.This is the content for first article.</p>
+<p>This is the 2nd content for first article.This is the 2nd content for first article.This is the 2nd content for first article.This is the 2nd content for first article.</p>
+`
+},
+ 'article-two' :{
+  title: 'Article Two | Abhinay Sajwan',
+  heading : "Hi!You're on the Article-Two.",
+  date: 'March 19,2018',
+  content:`
+    <p>This is the content for second article. `
+},
+ 'article-three' :{
+  title: 'Article Three | Abhinay Sajwan',
+  heading : "Hi!You're on the Article-Three.",
+  date: 'March 19,2018',
+  content:`
+   <p>This is the content for third article.`
+ }
 };
+*/
+/*
+function createTemplate(data){
+var title=data.title;
+var date=data.date;
+var heading=data.heading;
+var content=data.content;
 
+var htmlTemplate = `
+    <!doctype html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${title}</title>
+      <link rel="stylesheet" href="/ui/style.css">
+    </head>
 
+    <body>
+        
+    <div class="container">    
+     <div>
+         <a href="/">Home</a>
+     </div>
+     <hr border=solid black 1px>
 
-
-
-
-//submit Name
-var submit = document.getElementById('submit_btn');
-submit.onclick = function(){
-  
-    //make request to the server and the name 
-  
-        //create a request object
-    var request = new XMLHttpRequest();
+       <h3> ${heading}</h3>
+        <div>
+            ${date.toDateString()}
+        </div>
+        <div>
+            ${content}
+        </div>
+        </div>
+    </body>
     
-    //captures a response and store it in a variable
-    request.onreadystatechange = function(){
-        if(request.readyState === XMLHttpRequest.DONE){
-            //take some action
-            if(request.status === 200){
-                //capture a list of names and render it as a list
-                    var names = request.responseText;
-                    names = JSON.parse(names);
-                    var list = '';
-                    
-                    for(var i=0;i<names.length;i++){
-                            list += '<li>'+ names[i] + '</li>';
-                          
-                        }
-            var ul = document.getElementById('namelist');
-            ul.innerHTML=list;
-          }
-        }
-        //not done yet
+</html>`;
+
+return htmlTemplate; 
+}*/
+
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+});
+var pool = new Pool(config);
+
+function hash(input,salt){
+    //how do we create a hash?
+    var hashed = crypto.pbkdf2Sync(input,salt,10000,512,'sha512');
+   // return hashed.toString('hex');
+    return ["pbkdf2","10000",salt,hashed.toString('hex')].join('$');
+    
+    
+    //algorithm : md5
+    //"password" -> a8sfkjhdfklmxcvjdi394jvjhflkr302838
+    //"password-this-is-some-random-string" ->qweregrhredjglkvdgpo34cjafd232vjdd
+    //"password" ->"password-this-is-some-random-string" -> <hash> -> <hash> X 10k times
+    
+}
+
+app.get('/hash/:input',function(req,res){
+    var hashedString = hash(req.params.input,'this-is-some-random-string');
+    res.send(hashedString);
+});
+
+app.post('/create-user',function(req,res){
+    // username,password
+    //{username: "abhinay" , password: "password"}
+    
+    //JSON request
+    var username = req.body.username;
+    var password = req.body.password;
+    
+    var salt = crypto.randomBytes(128).toString('hex'); 
+  
+    var dbString = hash(password,salt);
+    pool.query('INSERT INTO "user" (username,password) VALUES ($1,$2)', [username,dbString] ,function(err,result){
+          if(err){
+           res.status(500).send(err.toString());
+       } else{
+          res.send('User Successfully Created: '+ username );
+       }
+    });
+});
+
+
+
+app.post('/login',function(req,res){
+  
+    var username = req.body.username;
+    var password = req.body.password;
    
-    };
+    pool.query('SELECT *FROM "user" WHERE username=$1',[username],function(err,result){
+     if(err)
+       {
+           res.status(500).send(err.toString());
+       } 
+    else
+       {
+           if(result.rows.length === 0){
+               res.send(403).send('Username/Password is invalid');
+           }
+           else
+           {
+               //Match the password
+               var dbString = result.rows[0].password;
+               var salt = dbString.split('$')[2];
+               var hashedPassword = hash(password,salt); //creating a hash based on the password submitted and the original salt
+               
+               if(hashedPassword === dbString){
+                   res.send('credentials correct!');
+                   //set a session 
+                   
+               }
+               else{
+                   res.status(403).send('Password is invalid');
+               }
+           }
+       }
+    });    
+});
+
+/*
+var pool = new Pool(config);
+
+app.get('/test-db',function(req,res){
+    //make  a select request 
     
-   //Make the request
-   var nameInput = document.getElementById('name');
-   var name = nameInput.value;
-   request.open('GET','http://abhinaysajwan.imad.hasura-app.io/submit-name?name='+name,true);
-   request.send(null);
-    
-};
+    //return a response with a results
+    pool.query('SELECT * FROM test',function(err,result){
+       if(err){
+           res.status(500).send(err.toString());
+       } else{
+           res.send(JSON.stringify(result.rows));
+       }
+    });
+});
+
+/*var counter = 0;
+app.get('/counter', function (req, res) {
+    counter = counter + 1;
+  res.send(counter.toString());
+});
+*/
+
+app.get('/ui/style.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
+});
+
+app.get('/ui/main.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'main.js'));
+});
+
+app.get('/ui/madi.png', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
+});
+
+/*
+//sending data using jason array as string
+var names = [];
+app.get('/submit-name/:name',function(req,res){
+    //Get the name from the request
+   var name = req.params.name;  //TODO
+   names.push(name);
+   //JSON:JavaScript Object Notation
+   res.send(JSON.stringify(names));
+   
+});
 
 */
 
 
+/*
+// using query parameter (in urls)
 
-
-//submit username/password to login
-
-var submit = document.getElementById('submit_btn');
-submit.onclick = function(){
-  
-    var request = new XMLHttpRequest();
-    
-    request.onreadystatechange = function(){
-        if(request.readyState === XMLHttpRequest.DONE)
-        {
-            if(request.status === 200){
-                console.log('user logged in');
-                alert('Logged in successfully');
-            }
-            else if(request.status === 403)
-            {
-                alert('username/password is incorrect');
-            }
-            else if(request.status === 500)
-            {
-                alert('Something went wrong on the server');
-            }
-        }
-        //not done yet
+var names = [];
+app.get('/submit-name',function(req,res){ //URL : /submit-name?name=xxxx
+    //Get the name from the request
+   var name = req.query.name;  //TODO
+   names.push(name);
+   //JSON:JavaScript Object Notation
+   res.send(JSON.stringify(names));
    
-    };
-    
-   //Make the request
-   var username = document.getElementById('username').value;
-   var password = document.getElementById('password').value;
+});
+
+
+
+app.get('/articles/:articleName', function (req, res) {
+//articleName == article-one
+//articles[articleNAme]=={}content object for article one
+
   
-     var obj = {"username" : "username" , "password" : "password"};
-     
-  console.log(username);
-  console.log(password);
-  
-   request.open('POST','http://abhinaysajwan.imad.hasura-app.io/login',true);
-   request.setRequestHeader('Content-Type','application/json');
-   request.send(JSON.stringify(obj));
+    pool.query("SELECT * FROM article WHERE title = $1",  [req.params.articleName],function(err,result){
+       if(err){
+           res.status(500).send(err.toString());
+       } 
+       else{
+           if(result.rows.length === 0)
+             {
+                 res.send(404).send("Article Not Found");
+             } 
+           else
+           {
+              var articleData = result.rows[0];
+              res.send(createTemplate(articleData));
+           }
+       }
+    });
     
-};
+});
+*/
+
+// Do not change port, otherwise your app won't run on IMAD servers
+// Use 8080 only for local development if you already have apache running on 80
+
+var port = 80;
+app.listen(port, function () {
+  console.log(`IMAD course app listening on port ${port}!`);
+});
+
+/*
+app.get('/article-two', function (req, res) {
+    res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
+});
+
+app.get('/article-three', function (req, res) {
+    res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+});*/
