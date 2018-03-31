@@ -156,7 +156,7 @@ app.post('/login',function(req,res){
                    
                }
                else{
-                   res.status(403).send('Username/Password is invalid');
+                   res.status(403).send('Password is invalid');
                }
            }
        }
