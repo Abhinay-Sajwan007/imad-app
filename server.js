@@ -131,8 +131,6 @@ app.post('/create-user',function(req,res){
     });
 });
 
-
-
 app.post('/login',function(req,res){
   
     var username = req.body.username;
@@ -146,7 +144,7 @@ app.post('/login',function(req,res){
     else
        {
            if(result.rows.length === 0){
-               res.send(403).send('Username/Password is invalid');
+               res.status(403).send('Username/Password is invalid');
            }
            else
            {
