@@ -134,10 +134,10 @@ app.post('/create-user',function(req,res){
 
 app.post('/login',function(req,res){
   
-    var uname = req.body.username;
-    var pass = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
    
-    pool.query('SELECT *FROM "user" WHERE username=$1',[uname],function(err,result){
+    pool.query('SELECT *FROM "user" WHERE username=$1',[username],function(err,result){
      if(err)
        {
            res.status(500).send(err.toString());
@@ -152,7 +152,7 @@ app.post('/login',function(req,res){
                //Match the password
                var dbString = result.rows[0].password;
                var salt = dbString.split('$')[2];
-               var hashedPassword = hash(pass,salt); //creating a hash based on the password submitted and the original salt
+               var hashedPassword = hash(password,salt); //creating a hash based on the password submitted and the original salt
                
                if(hashedPassword === dbString){
                    res.send('credentials correct!');
