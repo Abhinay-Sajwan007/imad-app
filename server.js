@@ -190,7 +190,7 @@ app.get('/check-login',function(req,res){
 
 
 app.get('/logout',function(req,res){
-    delete req.seesin.auth;
+    delete req.session.auth;
     res.send('You\'re logged out');
 });
 
