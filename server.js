@@ -131,7 +131,12 @@ app.post('/registeration',function(req,res){
           if(err){
            res.status(500).send(err.toString());
        } else{
-          res.send('User Successfully Created: '+ username );
+           
+         // res.send('User Successfully Created: '+ username );
+         
+         //for myblog app
+         res.setHeader('Content-Type','application/json');
+         res.send(JSON.parse('{"message":"User Successfully Created:'+username +'}'));
        }
     });
 });
@@ -149,8 +154,15 @@ app.post('/login',function(req,res){
     else
        {
            if(result.rows.length === 0){
-               res.status(403).send('Username/Password is invalid');
+               
+               //res.status(403).send('Username/Password is invalid');
+               
+                //For app
+               res.setHeader('Content-Type', 'application/json');
+               res.status(403).send(JSON.stringify({"error": "username/password is invalid"}))
+               
            }
+           
            else
            {
                //Match the password
@@ -166,12 +178,23 @@ app.post('/login',function(req,res){
                  //internally, on the server side, it maps the session id to an object
                  //{auht : {userId}}
                   
-                   res.send('credentials correct!');
+                 //  res.send('credentials correct!');
+                 
+                 //for app
+                   res.setHeader('Content-Type', 'application/json');
+                   res.send(JSON.stringify({"message":"You have successfully logged in"}));
+
                    
                    
                }
                else{
-                   res.status(403).send('Password is invalid');
+                   
+                //    res.status(403).send('Password is invalid');
+                
+                 //For app
+                   res.setHeder('Content-Type', 'application/json');
+                   res.status(403).send(JSON.stringify({"error": "username/password is invalid server"}));
+
                }
            }
        }
